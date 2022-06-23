@@ -3,14 +3,34 @@
 A new Flutter project.
 
 ## Getting Started
+Package List :
 
-This project is a starting point for a Flutter application.
+Firebase Core,
+firebase Messaging
+Local Notification
+Foreground : When the application is open, in view, and in use.
 
-A few resources to get you started if this is your first Flutter project:
+FirebaseMessaging.onMessage.listen((message) {
+print('i am message');
+if (message.notification != null) {
+print(message.notification!.body);
+print(message.notification!.title);
+} else {
+print(message);
+}
+NotificationService.display(message);
+});
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Background : When the application is open, but in the background (minimized). This typically occurs when the user has pressed the "home" button on the device, has switched to another app using the app switcher, or has the application open in a different tab (web).
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+FirebaseMessaging.onMessageOpenedApp.listen((message) {
+NotificationService.display(message);
+});
+
+Terminated : When the device is locked or the application is not running.
+
+Future backgroundHandler(RemoteMessage message) async {
+NotificationService.display(message);
+print(message.data.toString());
+print(message.notification!.title);
+}
